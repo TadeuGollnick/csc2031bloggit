@@ -1,9 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, EmailField, validators, Form
+from wtforms import SubmitField, PasswordField, EmailField
+from wtforms.validators import DataRequired, EqualTo, Email
 
 
-class RegisterForm(Form):
-    username = EmailField()
-    password = PasswordField()
-    confirm = PasswordField()
+class RegisterForm(FlaskForm):
+    username = EmailField(validators=[DataRequired(), Email()])
+    password = PasswordField(validators=[DataRequired(), EqualTo('confirm', message='Passwords must match.')])
+    confirm = PasswordField('Repeat Password')
     submit = SubmitField()
